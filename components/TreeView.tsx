@@ -3,8 +3,13 @@ import React, { memo } from 'react';
 import { TreeNode } from './TreeNode';
 import type { Node } from './TreeNode';
 
+export type TreeViewData = {
+  title: string;
+  node: Node;
+}
+
 type TreeViewProps = {
-  data: Node | Node[];
+  data: TreeViewData[];
 }
 
 const TreeView: React.FC<TreeViewProps> = memo(({ data }) => {
@@ -14,18 +19,16 @@ const TreeView: React.FC<TreeViewProps> = memo(({ data }) => {
         <span>Свойства</span>
         <span>Значения</span>
       </div>
+
       <ul className='TreeView-Body'>
-        {
-          Array.isArray(data) ? (
-            data.map((node, index) => (
-              <TreeNode
-                key={index}
-                node={node}
-              />
-            ))
-          ) : (
-            <TreeNode node={data} key='0' />
-          )
+        {data.map((item, index) => (
+            <TreeNode
+              depth={0}
+              key={index}
+              nodeKey={index}
+              node={item.node}
+            />
+          ))
         }
       </ul>
 
@@ -35,8 +38,8 @@ const TreeView: React.FC<TreeViewProps> = memo(({ data }) => {
           flex-direction: column;
           justify-content: flex-start;
           overflow: scroll;
-          width: 100%;
           height: 100%;
+          width: 100%;
         }
 
         .TreeView-Wrapper {
@@ -56,6 +59,11 @@ const TreeView: React.FC<TreeViewProps> = memo(({ data }) => {
           display: flex;
           flex-direction: column;
           list-style-type: none;
+          width: 100%;
+        }
+
+        .TreeView-Body ::before, .TreeView-Body > ul > li::after {
+          border: none;
         }
       
       `}</style>

@@ -8,7 +8,7 @@ const Header = memo(() => {
 
       <style jsx>{`
         .Header {
-          height: 40px;
+          height: 20px;
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -19,6 +19,7 @@ const Header = memo(() => {
         .Header-Title {
           color: #fff;
           font-size: 12px;
+          margin-left: 5px;
         }
 
         .Header-Icon {

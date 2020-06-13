@@ -28,7 +28,8 @@ const Checkbox: React.FC<CheckBoxProps> = memo(({ checked, onClick, id }) => {
 
         .Checkbox::before {
           content: "+";
-          z-index: 1;
+          background-color: #fff;
+          z-index: 2;
           border-radius: 50%;
           font-size: 10px;
           text-align: center;
@@ -36,7 +37,6 @@ const Checkbox: React.FC<CheckBoxProps> = memo(({ checked, onClick, id }) => {
           position: absolute;
           width: 14px;
           height: 14px;
-          right: -30px;
           border: 1px solid #11484a;
         }
 
