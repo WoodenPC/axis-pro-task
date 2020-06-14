@@ -16,8 +16,8 @@ const TreeView: React.FC<TreeViewProps> = memo(({ data }) => {
   return (
     <div className='TreeView'>
       <div className='TreeView-Header'>
-        <span>Свойства</span>
-        <span>Значения</span>
+        <span className='TreeView-HeaderKeys'>Свойства</span>
+        <span className='TreeView-HeaderValues'>Значения</span>
       </div>
       
       <ul className='TreeView-Body'>
@@ -50,11 +50,20 @@ const TreeView: React.FC<TreeViewProps> = memo(({ data }) => {
           font-size: 18px;
           margin: 0 auto;
           margin-top: 40px;
+          width: 100%;
         }
 
-        .TreeView-Header > span {
-          margin-right: 120px;
-          margin-left: -100px;
+        .TreeView-HeaderKeys {
+          width: 40%;
+          display: inline-block;
+          text-align: right;
+          margin-right: 200px;
+        }
+
+        .TreeView-HeaderValues {
+          width: 40%;
+          display: inline-block;
+          margin-left: -150px;
         }
 
         .TreeView-Body {
