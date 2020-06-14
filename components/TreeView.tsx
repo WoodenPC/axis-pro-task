@@ -17,7 +17,7 @@ const TreeView: React.FC<TreeViewProps> = memo(({ data }) => {
     <div className='TreeView'>
       <div className='TreeView-Header'>
         <span className='TreeView-HeaderKeys'>Свойства</span>
-        <span className='TreeView-HeaderValues'>Значения</span>
+        <span className='TreeView-HeaderValues'>Значение</span>
       </div>
       
       <ul className='TreeView-Body'>
