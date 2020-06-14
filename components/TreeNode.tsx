@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback } from 'react';
+import React, { memo, useState, useCallback, useMemo } from 'react';
 import { Checkbox } from './Checkbox';
 
 export type Node = {
@@ -13,101 +13,119 @@ type TreeNodeProps = {
   nodeKey: React.Key;
 };
 
-const TreeNode: React.FC<TreeNodeProps> = memo(({ node, nodeKey, depth }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const TreeNode: React.FC<TreeNodeProps> = memo(({ node, nodeKey, depth, children }) => {
+  const [isOpen, setIsOpen] = useState(true);
   const onOpenClick = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen, setIsOpen]);
-  console.log(node.children);
+  const transformStyle = useMemo(() => {
+    return { transform: `translateX(${25 * depth}px)` };
+  }, [depth]);
   return (
     <li className='TreeNode'>
-      <div>
-          {node.key &&
-          <span className='TreeNode-Value'>
-            <span className='TreeNode-ValueText'>
-              {node.value}
-            </span>
-          </span>}
+      {node.key && <span className='TreeNode-Branch' style={transformStyle}></span>}
+      {
+        <div className='TreeNode-Body'>
+          <span className='TreeNode-Key'>
+            <span className='TreeNode-KeyTitle'>{children}</span>
+            {node.key}
+          </span>
+          <span className={`TreeNode-Value ${children && 'TreeNode-ValueFirst'}`} style={transformStyle}>
           {node.children &&
-          <Checkbox
-            id={`c${nodeKey}`}
-            onClick={onOpenClick}
-            checked={isOpen}
-          />}
-      </div>
-      {node.children && <ul className='TreeNode-Children'>
-        {node.children.map((childNode, index) => (
-          <TreeNode
-            depth={depth + 1}
-            key={`${nodeKey}-${index}`}
-            nodeKey={`${nodeKey}-${index}`}
-            node={childNode}
-          />
-        ))}
-      </ul>}
+            <Checkbox
+                id={`c${nodeKey}`}
+                onClick={onOpenClick}
+                checked={isOpen}
+              />
+          }
+            {node.value}
+          </span>
+        </div>
+      }
+      {isOpen && node.children &&
+        <ul className='TreeNode-Children'>
+          {node.children.map((childNode, index) => (
+            <TreeNode
+              depth={depth + 1}
+              key={`${nodeKey}-${index}`}
+              nodeKey={`${nodeKey}-${index}`}
+              node={childNode}
+            />
+          ))}
+        </ul>}
 
       <style jsx>{`
         .TreeNode {
           list-style-type: none;
+          position: relative;
+          padding-top: 5px;
+          padding-bottom: 5px;
         }
 
         .TreeNode-Value {
           position: relative;
           color: #11484a;
+          width: 50%;
+          word-break: break-word;
+        }
+
+        .TreeNode-Branch {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: calc(40% - 16px);
+          height: calc(100% + 10px);
+          display: block;
+          width: 0;
+          border-left: 1px solid #ccc;
+        }
+
+        .TreeNode-Children > .TreeNode:last-child .TreeNode-Branch {
+          border-left: 1px solid transparent;
+        }
+
+        .TreeNode-KeyTitle ~ .TreeNode-Key {
+          border-right: 1px solid #000;
         }
 
         .TreeNode-Value::before {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: -32px;
-          display: block;
-          width: 0;
-          border-left: 1px solid #777;
-          content: "";
-          z-index: 0;
-          height: 18px;
-        }
-
-        .TreeNode-Value::after {
-          position: absolute;
-          top: 0;
-          left: -32px;
-          display: block;
-          height: 8px;
-          width: 30px;
-          border-bottom: 1px solid #777;
-          border-left: 1px solid #777;
           content: '';
-          z-index: 0;
-        }
-
-        .TreeNode:last-child .TreeNode-Value::before {
-          height: 18px;
-          top: -12px;
-        }
-
-        .TreeNode:first-child .TreeNode-Value::before {
-          height: 100%;
-          bottom: auto;
-        }
-
-        .TreeNode:first-child {
-          padding-top: 18px;
-        }
-
-        .TreeNode-Children::before {
-          content: "";
           position: absolute;
-          top: 0;
-          bottom: 0;
-          left: -32px;
+          top: -5px;
+          left: -16px;
+          bottom: 50%;
+          width: 12px;
+          border: 1px solid #ccc;
+          border-top: 0 none transparent;
+          border-right: 0 none transparent;
+        }
+
+        .TreeNode-ValueFirst::before {
+          border-left: 0 none transparent;
+        }
+
+        .TreeNode-Key {
+          color: #11484a;
+          box-sizing: border-box;
+          width: 40%;
+          word-break: break-word;
+          text-align: right;
           display: block;
-          width: 0;
-          border-left: 1px solid #777;
-          content: "";
-          z-index: 0;
-          height: 18px;
+          transform: translateX(-20px);
+        }
+
+        .TreeNode-KeyTitle {
+          font-weight: 900;
+        }
+
+        .TreeNode-Children {
+          padding-left: 0;
+        }
+
+        .TreeNode-Body {
+          display: flex;
+          flex-direction: row;
         }
       `}</style>
     </li>

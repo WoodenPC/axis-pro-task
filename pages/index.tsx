@@ -71,6 +71,8 @@ const HomePage = () => {
         margin: 0;
         padding: 0;
       }
+
+      
     `}</style>
     </Page>
   )

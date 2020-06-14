@@ -16,17 +16,20 @@ const Checkbox: React.FC<CheckBoxProps> = memo(({ checked, onClick, id }) => {
         id={id}
         checked={checked}
       />
+      <span className='Checkbox-Icon'></span>
       <style jsx>{`
         .Checkbox {
           position: relative;
           cursor: pointer;
+          height: 14px;
+          display: block;
         }
 
         .Checkbox-Input {
           display: none;
         }
 
-        .Checkbox::before {
+        .Checkbox-Icon::before {
           content: "+";
           background-color: #fff;
           z-index: 2;
@@ -40,13 +43,8 @@ const Checkbox: React.FC<CheckBoxProps> = memo(({ checked, onClick, id }) => {
           border: 1px solid #11484a;
         }
 
-        .Checkbox-Input:checked ~ .Checkbox::before {
+        .Checkbox-Input:checked ~ .Checkbox-Icon::before {
           content: "-";
-        }
-
-        .Checkbox::after {
-          position: absolute;
-          content: "";
         }
       
       `}</style>

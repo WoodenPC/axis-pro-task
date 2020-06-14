@@ -19,7 +19,7 @@ const TreeView: React.FC<TreeViewProps> = memo(({ data }) => {
         <span>Свойства</span>
         <span>Значения</span>
       </div>
-
+      
       <ul className='TreeView-Body'>
         {data.map((item, index) => (
             <TreeNode
@@ -27,11 +27,10 @@ const TreeView: React.FC<TreeViewProps> = memo(({ data }) => {
               key={index}
               nodeKey={index}
               node={item.node}
-            />
+            >{item.title}</TreeNode>
           ))
         }
-      </ul>
-
+          </ul>
       <style jsx>{`
         .TreeView {
           display: flex;
@@ -48,11 +47,14 @@ const TreeView: React.FC<TreeViewProps> = memo(({ data }) => {
 
         .TreeView-Header {
           color: grey;
-          font-size: 20px;
+          font-size: 18px;
+          margin: 0 auto;
+          margin-top: 40px;
         }
 
         .TreeView-Header > span {
-          margin-right: 5px;
+          margin-right: 120px;
+          margin-left: -100px;
         }
 
         .TreeView-Body {
@@ -60,12 +62,10 @@ const TreeView: React.FC<TreeViewProps> = memo(({ data }) => {
           flex-direction: column;
           list-style-type: none;
           width: 100%;
+          padding-left: 0;
+          position: relative;
         }
 
-        .TreeView-Body ::before, .TreeView-Body > ul > li::after {
-          border: none;
-        }
-      
       `}</style>
     </div>
   );
